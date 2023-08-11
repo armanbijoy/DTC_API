@@ -25,6 +25,11 @@ app.get('/state', async(req,res)=>{
     }
 
 })
+app.get('/test', async(req,res)=>{
+    res.send('Test Route')
+
+})
+
 
 app.get('/state/alberta/', async(req,res)=>{
     try{
