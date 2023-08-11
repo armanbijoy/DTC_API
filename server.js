@@ -15,8 +15,9 @@ app.get('/', (req,res)=>{
 
 app.get('/state', async(req,res)=>{
     try{
-        const states =   await State.find({})
-        res.status(200).json(JSON.stringify(states))
+        const states =   await State.find()
+        console.log(states)
+        res.status(200).json(states)
     }
     catch(err)
     {
