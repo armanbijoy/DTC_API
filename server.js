@@ -9,11 +9,11 @@ const app = express()
 
 app.use(cors({origin: true, credentials: true}));
 app.use(express.json())
-app.get('/', (req,res)=>{
+app.get('api/', (req,res)=>{
     res.send('Heloo DTC API')
 })
 
-app.get('/state', async(req,res)=>{
+app.get('api/state', async(req,res)=>{
     try{
         const states =   await State.find({}).lean()
         console.log(states)
@@ -32,7 +32,7 @@ app.get('/test', async(req,res)=>{
 })
 
 
-app.get('/state/alberta/', async(req,res)=>{
+app.get('api/state/alberta/', async(req,res)=>{
     try{
         const albertaTest = await AlbertaQuestionModel.find({})
         res.status(200).json(JSON.stringify(albertaTest))
