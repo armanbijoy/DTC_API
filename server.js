@@ -80,6 +80,6 @@ if(conn)
     console.log('Database Connected')
 }
 
-app.listen(9000, ()=>{
+app.listen( process.env |  9000, ()=>{
     console.log('DTC API Running on 9000')
 })
