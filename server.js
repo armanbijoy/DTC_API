@@ -13,9 +13,9 @@ app.get('/', (req,res)=>{
     res.send('Heloo DTC API')
 })
 
-app.get('/state', async (req,res)=>{
+app.get('/state', (req,res)=>{
     try{
-        const states = await State.find({})
+        const states =  State.find({})
         res.status(200).json(states)
     }
     catch(err)
@@ -26,9 +26,9 @@ app.get('/state', async (req,res)=>{
 
 })
 
-app.get('/state/alberta/', async (req,res)=>{
+app.get('/state/alberta/',  (req,res)=>{
     try{
-        const albertaTest = await AlbertaQuestionModel.find({})
+        const albertaTest = AlbertaQuestionModel.find({})
         res.status(200).json(albertaTest)
     }
     catch(err)
@@ -39,10 +39,10 @@ app.get('/state/alberta/', async (req,res)=>{
 
 })
 
-app.post('/state/create', async (req,res)=>{
+app.post('/state/create',  (req,res)=>{
     
     try{
-        const state = await State.create(req.body)
+        const state =  State.create(req.body)
         res.status(200).json(state) 
 
     }
@@ -53,10 +53,10 @@ app.post('/state/create', async (req,res)=>{
     }
 })
 
-app.post('/state/alberta/create', async (req,res)=>{
+app.post('/state/alberta/create',  (req,res)=>{
     
     try{
-        const albertatest = await AlbertaQuestionModel.create(req.body)
+        const albertatest =  AlbertaQuestionModel.create(req.body)
         res.status(200).json(albertatest) 
 
     }
