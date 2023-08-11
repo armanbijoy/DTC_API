@@ -63,7 +63,7 @@ app.post('/state/alberta/create',  async(req,res)=>{
     
     try{
         const albertatest =   await AlbertaQuestionModel.create(req.body)
-        res.status(200).json(JSON.stringify(albertatest))
+        res.status(200).json(albertatest)
 
     }
     catch(err)
