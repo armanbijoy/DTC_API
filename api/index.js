@@ -8,7 +8,7 @@ const cors = require("cors");
 
 
 const app = express();
-
+app.use(express.static('public'))
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.get("/api/", (req, res) => {
