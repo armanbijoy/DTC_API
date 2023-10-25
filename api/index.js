@@ -14,9 +14,15 @@ app.get("/api/", (req, res) => {
   res.send("Hello DTC API");
 });
 
-app.get("/api/state", async (req, res) => {
+app.get('/api/state', async (req, res) => {
+  const page = parseInt(req.query.page) || 0;
+  const result = parseInt(req.query.result) || 10;
+  const skip = page * result;
+
   try {
-    const states = await State.find({});
+    const states = await State.find({})
+      .skip(skip)
+      .limit(result);
     res.status(200).json(states);
   } catch (err) {
     res.status(500).json({ message: err.message });
