@@ -41,7 +41,7 @@ app.get('/api/state', async (req, res) => {
 
 app.get("/api/state/alberta", async (req, res) => {
   const page = parseInt(req.query.page) || 0;
-  const result = parseInt(req.query.result) || 10;
+  const result = parseInt(req.query.result) || 0;
   const skip = page * result;
 
   try {
@@ -49,7 +49,7 @@ app.get("/api/state/alberta", async (req, res) => {
 
     if (page > 0) {
       // If 'page' is provided and greater than 0, apply pagination
-      const startIndex = skip;
+      const startIndex = page * result;
       const endIndex = startIndex + result;
       const paginatedData = questionList.questionList.slice(startIndex, endIndex);
 
