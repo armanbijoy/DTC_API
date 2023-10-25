@@ -50,7 +50,7 @@ app.get("/api/state/alberta", async (req, res) => {
       .limit(result);
 
     const response = {
-      results: [questionList], // Wrap the questionList in an array
+      results: questionList.questionList.slice(0, result), // Slice the array to get the specified number of items
     };
 
     res.status(200).json(response);
@@ -58,6 +58,7 @@ app.get("/api/state/alberta", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 
 
