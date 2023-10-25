@@ -4,7 +4,7 @@ const State = require("../Models/StateModel");
 const AlbertaQuestionModel = require("../Models/AlbertaQuestionModel");
 const mongoos = require("mongoose");
 const cors = require("cors");
-
+const axios = require("axios");
 const app = express();
 let albertaData = [];
 app.use(cors({ origin: true, credentials: true }));
