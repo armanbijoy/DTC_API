@@ -46,7 +46,7 @@ app.get("/api/state/alberta", async (req, res) => {
     const questionList = await AlbertaQuestionModel.findOne({}).select('questionList');
 
     if (page) {
-      const result = 2; // Number of data items to retrieve per page
+      const result = 10; // Number of data items to retrieve per page
       const startIndex = (page - 1) * result;
       const endIndex = startIndex + result;
       const paginatedData = questionList.questionList.slice(startIndex, endIndex);
