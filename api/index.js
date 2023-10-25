@@ -48,9 +48,12 @@ app.get("/api/state/alberta", async (req, res) => {
     const questionList = await AlbertaQuestionModel.findOne({}).select('questionList')
       .skip(skip)
       .limit(result);
-    const result=[questionList]
 
-    res.status(200).json(result);
+    const response = {
+      results: [questionList], // Wrap the questionList in an array
+    };
+
+    res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
