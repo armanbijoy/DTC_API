@@ -6,7 +6,7 @@ const mongoos = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-
+let albertaData = [];
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
@@ -40,31 +40,36 @@ app.get('/api/state', async (req, res) => {
 // });
 
 app.get("/api/state/alberta", async (req, res) => {
-  const page = parseInt(req.query.page) || 0;
-  const result = parseInt(req.query.result) || 0;
-  const skip = page * result;
+  const page = parseInt(req.query.page) || 1; // Start with page 1
+  const result = parseInt(req.query.result) || 10; // Default to 10 results per page
 
   try {
-    const questionList = await AlbertaQuestionModel.findOne({}).select('questionList');
-
-    if (page > 0) {
-      // If 'page' is provided and greater than 0, apply pagination
-      const startIndex = page * result;
+    // Check if we have already fetched data for this page
+    if (albertaData[page]) {
+      const startIndex = (page - 1) * result;
       const endIndex = startIndex + result;
-      const paginatedData = questionList.questionList.slice(startIndex, endIndex);
-
+      const paginatedData = albertaData[page].slice(startIndex, endIndex);
       const response = {
         results: paginatedData,
       };
-
       res.status(200).json(response);
     } else {
-      // If 'page' is not provided or set to 0, fetch all data
-      const response = {
-        results: questionList.questionList,
-      };
+      // Fetch the data from the external API
+      const apiUrl = `https://dtc-api.vercel.app/api/state/alberta?page=${page}&result=${result}`;
+      const response = await axios.get(apiUrl);
+      const data = response.data;
 
-      res.status(200).json(response);
+      // Store the fetched data in the albertaData array
+      albertaData[page] = data;
+
+      const startIndex = 0; // Start from the beginning
+      const endIndex = Math.min(result, data.length); // Cap the results at the available data length
+      const paginatedData = data.slice(startIndex, endIndex);
+
+      const responseData = {
+        results: paginatedData,
+      };
+      res.status(200).json(responseData);
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
