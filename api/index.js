@@ -41,16 +41,24 @@ app.get('/api/state', async (req, res) => {
 
 app.get("/api/state/alberta", async (req, res) => {
   const page = parseInt(req.query.page) || 0;
-  const result = parseInt(req.query.result) || 0;
+  const result = parseInt(req.query.result) || 10;
   const skip = page * result;
 
   try {
-    const questionList = await AlbertaQuestionModel.findOne({}).select('questionList')
-      .skip(skip)
-      .limit(result);
+    let query = AlbertaQuestionModel.findOne({}).select('questionList');
+
+    if (page === 0 && result === 10) {
+      // If no 'page' and 'result' parameters are provided, fetch all data
+      query = AlbertaQuestionModel.findOne({});
+    } else {
+      // If 'page' and 'result' parameters are provided, apply pagination
+      query.skip(skip).limit(result);
+    }
+
+    const questionList = await query;
 
     const response = {
-      results: questionList.questionList.slice(0, result), // Slice the array to get the specified number of items
+      results: questionList.questionList,
     };
 
     res.status(200).json(response);
@@ -58,7 +66,6 @@ app.get("/api/state/alberta", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 
 
