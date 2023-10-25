@@ -40,37 +40,28 @@ app.get('/api/state', async (req, res) => {
 // });
 
 app.get("/api/state/alberta", async (req, res) => {
-  const page = parseInt(req.query.page) || 0;
-  const result = parseInt(req.query.result) || 0;
-  const skip = page * result;
+  const page = parseInt(req.query.page) || 1; // Start with page 1
+  const result = 1; // Always retrieve 1 data item per page
 
   try {
     const questionList = await AlbertaQuestionModel.findOne({}).select('questionList');
 
-    if (page > 0) {
-      // If 'page' is provided and greater than 0, apply pagination
-      const startIndex = page * result;
-      const endIndex = startIndex + result;
-      const paginatedData = questionList.questionList.slice(startIndex, endIndex);
-
+    if (page > 0 && page <= questionList.questionList.length) {
+      const index = page - 1; // Adjust page number to zero-based index
+      const dataItem = questionList.questionList[index];
       const response = {
-        results: paginatedData,
+        results: [dataItem],
       };
 
       res.status(200).json(response);
     } else {
-      // If 'page' is not provided or set to 0, fetch all data
-      const response = {
-        results: questionList.questionList,
-      };
-
-      res.status(200).json(response);
+      // If 'page' is not provided, set to 0, or exceeds the available data, return an empty response.
+      res.status(200).json({ results: [] });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 
 mongoos.set("strictQuery", false);
