@@ -29,30 +29,32 @@ app.get('/api/state', async (req, res) => {
   }
 });
 
-app.get("/api/state/alberta", async (req, res) => {
-  try {
-    const albertaTest = await AlbertaQuestionModel.find({});
-    res.status(200).json(albertaTest);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
 // app.get("/api/state/alberta", async (req, res) => {
-//   const page = parseInt(req.query.page) || 0;
-//   const result = parseInt(req.query.result) || 10;
-//   const skip = page * result;
-
 //   try {
-//     const questionList = await AlbertaQuestionModel.findOne({}).select('questionList')
-//       .skip(skip)
-//       .limit(result);
-
-//     res.status(200).json(questionList.questionList);
+//     const albertaTest = await AlbertaQuestionModel.find({});
+    
+//     res.status(200).json(albertaTest);
 //   } catch (err) {
 //     res.status(500).json({ message: err.message });
 //   }
 // });
+
+app.get("/api/state/alberta", async (req, res) => {
+  const page = parseInt(req.query.page) || 0;
+  const result = parseInt(req.query.result) || 10;
+  const skip = page * result;
+
+  try {
+    const questionList = await AlbertaQuestionModel.findOne({}).select('questionList')
+      .skip(skip)
+      .limit(result);
+    const result=[questionList]
+
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 
 
