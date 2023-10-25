@@ -41,7 +41,7 @@ app.get('/api/state', async (req, res) => {
 
 app.get("/api/state/alberta", async (req, res) => {
   const page = parseInt(req.query.page) || 1; // Start with page 1
-  const result = 1; // Always retrieve 1 data item per page
+  const result = 2; // Always retrieve 1 data item per page
 
   try {
     const questionList = await AlbertaQuestionModel.findOne({}).select('questionList');
