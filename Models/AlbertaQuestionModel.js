@@ -12,8 +12,11 @@ const optionSchema = new mongoose.Schema({
 const questionSchema = new mongoose.Schema({
   question: String,
   imgURI: String,
+  state: [String],
+  category:[String],
   type: [String], // Add the 'type' array
   diff: [String], // Add the 'diff' array
+
   options: [optionSchema],
   correctAnswerId: Number,
 });
