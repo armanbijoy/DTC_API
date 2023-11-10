@@ -6,6 +6,8 @@ const mongoos = require("mongoose");
 const cors = require("cors");
 
 const app = express();
+app.use(bodyParser.json({ limit: '30mb' })); // Adjust the limit according to your needs
+app.use(bodyParser.urlencoded({ extended: true, limit: '30mb' }));
 let albertaData = [];
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
